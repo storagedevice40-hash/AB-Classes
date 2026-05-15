@@ -596,7 +596,7 @@
         function addNewClassInput() { 
             // Fixed data wipe issue by using insertAdjacentHTML
             var box = document.getElementById('dynamicClassesBox');
-            box.insertAdjacentHTML('beforeend', '<div class="flex space-x-2 class-row"><input type="text" class="fee-class w-1/2 mobile-input bg-gray-50" placeholder="Class (e.g. 2nd)"><input type="number" inputmode="numeric" class="fee-amount w-1/2 mobile-input text-indigo-600 bg-gray-50" placeholder="Amount"><button type="button" onclick="this.parentElement.remove()" class="del-cls-btn w-12 bg-red-50 text-red-500 rounded-xl shadow-sm"><i class="fas fa-trash"></i></button></div>');
+            box.insertAdjacentHTML('beforeend', '<div class="flex space-x-2 class-row"><input type="text" class="fee-class w-1/2 mobile-input bg-gray-50" placeholder="Class Name"><input type="number" inputmode="numeric" class="fee-amount w-1/2 mobile-input text-indigo-600 bg-gray-50" placeholder="Amount"><button type="button" onclick="this.parentElement.remove()" class="del-cls-btn w-12 bg-red-50 text-red-500 rounded-xl shadow-sm"><i class="fas fa-trash"></i></button></div>');
         }
         
         function saveSettings(e) {
