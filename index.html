@@ -35,7 +35,7 @@
         @keyframes pulse-soft { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
         .blink { animation: pulse-soft 1.5s infinite; }
         
-        input[type="text"], select { text-transform: uppercase; }
+        .force-uppercase { text-transform: uppercase; }
         ::-webkit-scrollbar { display: none; }
         
         .glass-panel { 
@@ -63,7 +63,7 @@
             color: #1e293b; outline: none; transition: all 0.3s;
         }
         .mobile-input:focus { border-color: #6366f1; background: #ffffff; box-shadow: 0 0 0 4px rgba(99,102,241,0.1); }
-        .mobile-input:read-only { background-color: #f1f5f9; color: #94a3b8; cursor: not-allowed; border-color: #e2e8f0; }
+        .mobile-input:read-only, .mobile-input:disabled { background-color: #f1f5f9; color: #94a3b8; cursor: not-allowed; border-color: #e2e8f0; opacity: 0.8; }
         
         .drag-handle { width: 45px; height: 5px; background: #cbd5e1; border-radius: 5px; margin: 0 auto 20px auto; }
 
@@ -93,6 +93,7 @@
         </div>
     </div>
 
+    <!-- INITIALIZING SCREEN -->
     <div id="globalLoader" class="fixed inset-0 bg-[#f4f7fe] dark-target z-[999] flex flex-col items-center justify-center p-6 text-center">
         <div class="w-16 h-16 border-4 border-indigo-200 border-t-indigo-600 rounded-full animate-spin mb-5"></div>
         <p class="text-indigo-600 font-black tracking-widest text-sm animate-pulse uppercase">INITIALIZING...</p>
@@ -111,14 +112,13 @@
         <div class="flex flex-col items-end shrink-0 mt-0.5">
             <div class="flex items-center bg-red-50 text-red-600 px-1.5 py-0.5 rounded border border-red-100 blink shadow-sm mb-1">
                 <span class="w-1 h-1 bg-red-600 rounded-full mr-1"></span>
-                <span class="text-[7px] font-black uppercase tracking-widest leading-none mt-0.5">DEMO</span>
+                <span class="text-[7px] font-black uppercase tracking-widest leading-none mt-0.5">PREMIUM</span>
             </div>
             <span class="font-bold text-gray-400 uppercase tracking-widest" style="font-size: 7px; white-space: nowrap;">Created by Guna</span>
         </div>
     </header>
 
     <main class="flex-1 overflow-y-auto px-4 w-full">
-        
         <section id="dashboard" class="view-section active">
             <div class="flex justify-between items-end mb-4 px-1">
                 <h2 class="text-2xl font-black text-gray-800 tracking-tight">Overview</h2>
@@ -175,7 +175,7 @@
                 <div class="absolute inset-y-0 left-0 pl-5 flex items-center pointer-events-none">
                     <i class="fas fa-search text-gray-400 text-lg"></i>
                 </div>
-                <input type="text" id="searchInput" oninput="renderStudents()" placeholder="SEARCH BY NAME OR PHONE..." class="mobile-input shadow-sm w-full" style="padding-left: 3.2rem;">
+                <input type="text" id="searchInput" oninput="renderStudents()" placeholder="SEARCH BY NAME OR PHONE..." class="mobile-input force-uppercase shadow-sm w-full" style="padding-left: 3.2rem;">
             </div>
             <div id="students-list" class="space-y-4"></div>
         </section>
@@ -204,12 +204,12 @@
                 <form id="feeForm" onsubmit="processFee(event)" class="space-y-5">
                     <div>
                         <label class="block text-10 font-black text-gray-500 uppercase tracking-widest ml-1 mb-1.5">SELECT CLASS (OPTIONAL)</label>
-                        <select id="feeClass" onchange="populateFeeStudents()" class="mobile-input bg-gray-50 uppercase"><option value="">-- ALL CLASSES --</option></select>
+                        <select id="feeClass" onchange="populateFeeStudents()" class="mobile-input bg-gray-50"><option value="">-- ALL CLASSES --</option></select>
                     </div>
                     <div>
                         <label class="block text-10 font-black text-gray-500 uppercase tracking-widest ml-1 mb-1.5">SEARCH STUDENT</label>
                         <div class="relative">
-                            <input type="text" id="feeStudentSearch" oninput="filterFeeStudents()" placeholder="START TYPING NAME..." class="mobile-input bg-gray-50 uppercase" autocomplete="off">
+                            <input type="text" id="feeStudentSearch" oninput="filterFeeStudents()" placeholder="START TYPING NAME..." class="mobile-input force-uppercase bg-gray-50" autocomplete="off">
                             <div id="feeStudentList" class="hidden absolute top-full left-0 right-0 bg-white shadow-2xl border border-gray-100 rounded-xl mt-1 z-50 max-h-48 overflow-y-auto p-2"></div>
                             <input type="hidden" id="feeStudentId" required>
                         </div>
@@ -217,11 +217,11 @@
                     <div class="grid grid-cols-2 gap-4">
                         <div>
                             <label class="block text-10 font-black text-gray-500 uppercase tracking-widest ml-1 mb-1.5">FEE MONTH</label>
-                            <select id="feeMonth" required class="mobile-input bg-gray-50 uppercase"><option value="January">Jan</option><option value="February">Feb</option><option value="March">Mar</option><option value="April">Apr</option><option value="May">May</option><option value="June">Jun</option><option value="July">Jul</option><option value="August">Aug</option><option value="September">Sep</option><option value="October">Oct</option><option value="November">Nov</option><option value="December">Dec</option></select>
+                            <select id="feeMonth" required class="mobile-input bg-gray-50 force-uppercase"><option value="January">Jan</option><option value="February">Feb</option><option value="March">Mar</option><option value="April">Apr</option><option value="May">May</option><option value="June">Jun</option><option value="July">Jul</option><option value="August">Aug</option><option value="September">Sep</option><option value="October">Oct</option><option value="November">Nov</option><option value="December">Dec</option></select>
                         </div>
                         <div>
                             <label class="block text-10 font-black text-gray-500 uppercase tracking-widest ml-1 mb-1.5">DATE</label>
-                            <input type="date" id="feeDate" required class="mobile-input bg-gray-50 uppercase text-xs">
+                            <input type="date" id="feeDate" required class="mobile-input bg-gray-50 text-xs">
                         </div>
                     </div>
                     <div>
@@ -311,7 +311,11 @@
             
             <div class="flex justify-between items-center mb-6">
                 <h3 class="text-xl font-black text-gray-800 uppercase" id="modalTitle">Registration</h3>
-                <button type="button" onclick="closeModal()" class="w-8 h-8 bg-gray-100 rounded-full flex items-center justify-center text-gray-500 active:scale-90"><i class="fas fa-times"></i></button>
+                <!-- NAYA LOCK/UNLOCK ICON YAHAN HAI -->
+                <div class="flex items-center space-x-3">
+                    <button type="button" id="modalLockBtn" onclick="toggleModalLock()" class="hidden w-8 h-8 bg-gray-100 rounded-full flex items-center justify-center text-gray-500 active:scale-90 shadow-sm transition"><i id="modalLockIcon" class="fas fa-lock"></i></button>
+                    <button type="button" onclick="closeModal()" class="w-8 h-8 bg-gray-100 rounded-full flex items-center justify-center text-gray-500 active:scale-90"><i class="fas fa-times"></i></button>
+                </div>
             </div>
             
             <form id="addForm" onsubmit="saveStudentToServer(event)" class="space-y-4">
@@ -319,20 +323,20 @@
                 
                 <div>
                     <label class="block text-10 font-black text-gray-400 uppercase ml-1 mb-1">Full Name</label>
-                    <input type="text" id="stuName" required class="mobile-input" placeholder="STUDENT NAME" oninput="autoGuessGender()">
+                    <input type="text" id="stuName" required class="mobile-input force-uppercase" placeholder="STUDENT NAME" oninput="autoGuessGender()">
                 </div>
                 
                 <div class="grid grid-cols-2 gap-3">
                     <div>
                         <label class="block text-10 font-black text-gray-400 uppercase ml-1 mb-1">Gender</label>
-                        <select id="stuGender" required class="mobile-input bg-white uppercase">
+                        <select id="stuGender" required class="mobile-input bg-white force-uppercase">
                             <option value="" disabled selected>-- SELECT --</option>
                             <option value="Male">MALE</option><option value="Female">FEMALE</option>
                         </select>
                     </div>
                     <div>
                         <label class="block text-10 font-black text-gray-400 uppercase ml-1 mb-1">Class</label>
-                        <select id="stuClass" required onchange="autoFillSetupFee()" class="mobile-input bg-white uppercase"><option value="">-- SELECT --</option></select>
+                        <select id="stuClass" required onchange="autoFillSetupFee()" class="mobile-input bg-white"><option value="">-- SELECT --</option></select>
                     </div>
                 </div>
                 
@@ -348,7 +352,7 @@
                 
                 <div class="grid grid-cols-2 gap-3">
                     <div><label class="block text-10 font-black text-gray-400 uppercase ml-1 mb-1">Fee (₹)</label><input type="number" inputmode="numeric" id="stuFee" required class="mobile-input border-indigo-200 bg-indigo-50 text-indigo-700 text-lg"></div>
-                    <div><label class="block text-10 font-black text-gray-400 uppercase ml-1 mb-1">Join Date <span class="text-8 normal-case">(DD/MM/YYYY)</span></label><input type="date" id="stuDate" required class="mobile-input text-11 uppercase p-[13px]"></div>
+                    <div><label class="block text-10 font-black text-gray-400 uppercase ml-1 mb-1">Join Date <span class="text-8 normal-case">(DD/MM/YYYY)</span></label><input type="date" id="stuDate" required class="mobile-input text-11 p-[13px]"></div>
                 </div>
                 
                 <div id="deleteBox" class="hidden mt-6 pt-5 border-t border-gray-100">
@@ -358,20 +362,21 @@
                     </div>
                 </div>
 
-                <button type="submit" class="w-full bg-gray-900 text-white py-4 rounded-xl font-black text-sm mt-6 active:scale-95 shadow-lg uppercase tracking-widest">Save Profile</button>
+                <button type="submit" id="modalSaveBtn" class="w-full bg-gray-900 text-white py-4 rounded-xl font-black text-sm mt-6 active:scale-95 shadow-lg uppercase tracking-widest transition">Save Profile</button>
             </form>
         </div>
     </div>
 
+    <!-- JAVASCRIPT LOGIC -->
     <script>
-        // YAHAN APNA NAYA GOOGLE SCRIPT URL DAALNA HAI (Abhi ke liye purana set hai)
+        // TUMHARA NAYA GOOGLE SCRIPT URL YAHAN HAI
         const API_URL = 'https://script.google.com/macros/s/AKfycbzCSvXZB0BWH4AuTcgLfmnPaV8VQ0tfntPselg5aqpuJP0MA-swq4xfv6XSl82dE_qK/exec';
 
         window.loadTimer = setTimeout(function() {
             var gl = document.getElementById('globalLoader');
             if(gl.style.display !== 'none') {
                 document.getElementById('errorBox').classList.remove('hidden');
-                document.getElementById('errorBox').innerHTML = '<p class="text-xs font-bold text-red-600 uppercase tracking-widest text-center">Timeout! Backend script se connection nahi ho paaya.</p>';
+                document.getElementById('errorBox').innerHTML = '<p class="text-xs font-bold text-red-600 uppercase tracking-widest text-center">Timeout! Check API Connection.</p>';
             }
         }, 12000);
 
@@ -380,47 +385,43 @@
         var currentMode = ''; 
         var setLocked = true; 
         var delLocked = true;
+        var modalLocked = false; // Add Edit Modal Lock State
         var isRevenueHidden = true;
 
         async function gasApi(action, payload = null) {
             try {
                 let url = API_URL + "?action=" + action;
                 let options = { method: "GET" };
-                
-                if (payload) {
-                    options = {
-                        method: "POST",
-                        body: JSON.stringify({ action: action, data: payload })
-                    };
-                }
+                if (payload) options = { method: "POST", body: JSON.stringify({ action: action, data: payload }) };
                 const response = await fetch(url, options);
                 return await response.json();
-            } catch(e) {
-                console.error("API Error:", e);
-                return null;
-            }
+            } catch(e) { console.error("API Error:", e); return null; }
         }
 
-        function formatDDMMYYYY(dateString) {
-            if(!dateString) return '';
-            if(dateString.indexOf('T') !== -1) dateString = dateString.split('T')[0];
-            var p = dateString.split('-');
-            if(p.length === 3) return p[2] + "/" + p[1] + "/" + p[0];
-            return dateString;
-        }
-
+        // FAST LOADING WITH LOCALSTORAGE CACHE
         document.addEventListener('DOMContentLoaded', function() {
             setInterval(updateClock, 1000); updateClock();
             document.getElementById('feeMonth').value = currentMonthName;
 
-            gasApi('getAppData').then(function(res) {
-                clearTimeout(window.loadTimer);
-                if(!res || res.status === 'error') { 
-                    alert(res ? res.message : "Failed to load data from server"); return; 
-                }
-                appData = res;
+            // Step 1: Load Local Cached Data instantly
+            const cachedData = localStorage.getItem('abClassesData');
+            if(cachedData) {
+                appData = JSON.parse(cachedData);
                 document.getElementById('globalLoader').style.display = 'none';
                 initSettingsUI(); updateDashboard(); renderStudents(); renderDefaulters();
+            }
+
+            // Step 2: Fetch Fresh Data in Background
+            gasApi('getAppData').then(function(res) {
+                clearTimeout(window.loadTimer);
+                if(res && res.status === 'success') { 
+                    appData = res;
+                    localStorage.setItem('abClassesData', JSON.stringify(appData));
+                    if(!cachedData) document.getElementById('globalLoader').style.display = 'none';
+                    initSettingsUI(); updateDashboard(); renderStudents(); renderDefaulters();
+                } else if(!cachedData) {
+                    alert(res ? res.message : "Failed to load data from server");
+                }
             });
         });
 
@@ -498,7 +499,11 @@
             var recent = appData.payments.slice().reverse().slice(0, 5);
             for(var k=0; k<recent.length; k++) {
                 var p = recent[k];
-                list.innerHTML += '<div class="glass-panel p-4 rounded-24 mb-3 flex justify-between items-center"><div class="flex items-center space-x-3"><div onclick="resendSuccess(\'' + p.studentName + '\', \'' + p.phone + '\', \'' + p.amount + '\', \'' + p.month + '\', \'' + (p.mode||'CASH') + '\')" class="w-10 h-10 bg-green-50 text-green-500 rounded-full flex items-center justify-center active:scale-90 shadow-sm"><i class="fab fa-whatsapp text-lg"></i></div><div><p class="font-black text-gray-800 text-xs uppercase truncate w-32">' + p.studentName + '</p><p class="text-8 font-bold text-gray-400 uppercase mt-0.5 tracking-widest">' + p.className + ' • ' + p.month + '</p></div></div><div class="text-right"><p class="font-black text-indigo-600 text-sm">₹' + p.amount + '</p><p class="text-8 font-bold text-gray-400 uppercase mt-0.5 tracking-widest">' + (p.mode||'CASH') + ' • ' + formatDDMMYYYY(p.date) + '</p></div></div>';
+                // Display Date Fix
+                var pDateRaw = p.date.split('-');
+                var pDateShow = pDateRaw.length === 3 ? pDateRaw[2]+"/"+pDateRaw[1]+"/"+pDateRaw[0] : p.date;
+                
+                list.innerHTML += '<div class="glass-panel p-4 rounded-24 mb-3 flex justify-between items-center"><div class="flex items-center space-x-3"><div onclick="resendSuccess(\'' + p.studentName + '\', \'' + p.phone + '\', \'' + p.amount + '\', \'' + p.month + '\', \'' + (p.mode||'CASH') + '\')" class="w-10 h-10 bg-green-50 text-green-500 rounded-full flex items-center justify-center active:scale-90 shadow-sm"><i class="fab fa-whatsapp text-lg"></i></div><div><p class="font-black text-gray-800 text-xs force-uppercase truncate w-32">' + p.studentName + '</p><p class="text-8 font-bold text-gray-400 mt-0.5 tracking-widest">' + p.className + ' • ' + p.month.toUpperCase() + '</p></div></div><div class="text-right"><p class="font-black text-indigo-600 text-sm">₹' + p.amount + '</p><p class="text-8 font-bold text-gray-400 force-uppercase mt-0.5 tracking-widest">' + (p.mode||'CASH') + ' • ' + pDateShow + '</p></div></div>';
             }
         }
 
@@ -516,7 +521,7 @@
             for(var k=0; k<filtered.length; k++) {
                 var fs = filtered[k];
                 var color = fs.gender === 'Female' ? 'bg-pink-100 text-pink-600' : 'bg-blue-100 text-blue-600';
-                list.innerHTML += '<div class="glass-panel p-5 rounded-32 mb-4"><div class="flex justify-between items-start mb-4"><div class="flex items-center"><div class="w-12 h-12 rounded-2xl ' + color + ' flex items-center justify-center font-black text-xl mr-4">' + fs.name.charAt(0) + '</div><div><h4 class="font-black text-gray-800 text-sm uppercase w-[150px] truncate">' + fs.name + '</h4><p class="text-9 font-bold text-gray-400 mt-0.5 tracking-widest uppercase">' + fs.id + ' • CLS ' + fs.class + '</p></div></div><button onclick="editStudent(\'' + fs.id + '\')" class="w-10 h-10 rounded-full bg-gray-50 text-gray-400 active:scale-90"><i class="fas fa-pen text-xs"></i></button></div><div class="flex justify-between items-center pt-4 border-t border-gray-100"><div><p class="text-8 font-black text-gray-400 uppercase tracking-widest">MONTHLY FEE</p><p class="font-black text-indigo-600 text-lg -mt-1">₹' + fs.fee + '</p></div><button onclick="window.open(\'https://wa.me/91' + fs.phone + '\', \'_blank\')" class="bg-green-500 text-white px-4 py-2.5 rounded-xl text-xs font-black shadow-lg active:scale-95 flex items-center uppercase tracking-widest"><i class="fab fa-whatsapp text-lg mr-2"></i> CHAT</button></div></div>';
+                list.innerHTML += '<div class="glass-panel p-5 rounded-32 mb-4"><div class="flex justify-between items-start mb-4"><div class="flex items-center"><div class="w-12 h-12 rounded-2xl ' + color + ' flex items-center justify-center font-black text-xl mr-4">' + fs.name.charAt(0) + '</div><div><h4 class="font-black text-gray-800 text-sm force-uppercase w-[150px] truncate">' + fs.name + '</h4><p class="text-9 font-bold text-gray-400 mt-0.5 tracking-widest">' + fs.id + ' • CLS ' + fs.class + '</p></div></div><button onclick="editStudent(\'' + fs.id + '\')" class="w-10 h-10 rounded-full bg-gray-50 text-gray-400 active:scale-90"><i class="fas fa-pen text-xs"></i></button></div><div class="flex justify-between items-center pt-4 border-t border-gray-100"><div><p class="text-8 font-black text-gray-400 uppercase tracking-widest">MONTHLY FEE</p><p class="font-black text-indigo-600 text-lg -mt-1">₹' + fs.fee + '</p></div><button onclick="window.open(\'https://wa.me/91' + fs.phone + '\', \'_blank\')" class="bg-green-500 text-white px-4 py-2.5 rounded-xl text-xs font-black shadow-lg active:scale-95 flex items-center uppercase tracking-widest"><i class="fab fa-whatsapp text-lg mr-2"></i> CHAT</button></div></div>';
             }
         }
 
@@ -526,6 +531,7 @@
             
             for(var i=0; i<appData.students.length; i++) {
                 var s = appData.students[i];
+                // Parsing DD/MM/YYYY into JS Date safely
                 var p = s.joinDate.split('/');
                 var joinD = p.length === 3 ? new Date(p[2] + '-' + p[1] + '-' + p[0]) : new Date(s.joinDate);
                 if(isNaN(joinD.getTime())) joinD = new Date();
@@ -538,7 +544,7 @@
                 
                 if(diffDays > 30 && !hasPaid) {
                     defCount++;
-                    list.innerHTML += '<div class="glass-panel p-5 rounded-32 border-l-[6px] border-red-500 mb-4 relative overflow-hidden"><div class="absolute -right-4 -bottom-4 w-20 h-20 bg-red-100 rounded-full blur-2xl opacity-50"></div><div class="flex justify-between items-center mb-4 relative z-10"><div><h4 class="font-black text-gray-800 text-sm uppercase tracking-wide">' + s.name + '</h4><p class="text-9 font-bold text-gray-500 tracking-widest mt-0.5 uppercase">CLASS ' + s.class + ' • DUE: ₹' + s.fee + '</p></div></div><button onclick="sendSoftReminder(\'' + s.name + '\', \'' + s.phone + '\', \'' + s.fee + '\')" class="w-full bg-red-500 hover:bg-red-600 text-white py-4 rounded-2xl text-10 font-black tracking-widest shadow-lg active:scale-95 uppercase transition-all flex justify-center items-center relative z-10"><i class="fab fa-whatsapp text-sm mr-2"></i> SEND SOFT REMINDER</button></div>';
+                    list.innerHTML += '<div class="glass-panel p-5 rounded-32 border-l-[6px] border-red-500 mb-4 relative overflow-hidden"><div class="absolute -right-4 -bottom-4 w-20 h-20 bg-red-100 rounded-full blur-2xl opacity-50"></div><div class="flex justify-between items-center mb-4 relative z-10"><div><h4 class="font-black text-gray-800 text-sm force-uppercase tracking-wide">' + s.name + '</h4><p class="text-9 font-bold text-gray-500 tracking-widest mt-0.5 force-uppercase">CLASS ' + s.class + ' • DUE: ₹' + s.fee + '</p></div></div><button onclick="sendSoftReminder(\'' + s.name + '\', \'' + s.phone + '\', \'' + s.fee + '\')" class="w-full bg-red-500 hover:bg-red-600 text-white py-4 rounded-2xl text-10 font-black tracking-widest shadow-lg active:scale-95 uppercase transition-all flex justify-center items-center relative z-10"><i class="fab fa-whatsapp text-sm mr-2"></i> SEND SOFT REMINDER</button></div>';
                 }
             }
             
@@ -581,18 +587,31 @@
         function initSettingsUI() {
             var box = document.getElementById('dynamicClassesBox'); box.innerHTML = '';
             for(var cls in appData.feeSettings) {
-                box.innerHTML += '<div class="flex space-x-2 class-row"><input type="text" value="' + cls + '" class="fee-class w-1/2 mobile-input bg-gray-50 uppercase" readonly><input type="number" inputmode="numeric" value="' + appData.feeSettings[cls] + '" class="fee-amount w-1/2 mobile-input text-indigo-600 bg-gray-50" readonly><button type="button" onclick="this.parentElement.remove()" class="del-cls-btn w-12 bg-red-50 text-red-500 rounded-xl hidden shadow-sm"><i class="fas fa-trash"></i></button></div>';
+                // Fixed innerHTML issue, removed forced uppercase so case is preserved
+                box.insertAdjacentHTML('beforeend', '<div class="flex space-x-2 class-row"><input type="text" value="' + cls + '" class="fee-class w-1/2 mobile-input bg-gray-50" readonly><input type="number" inputmode="numeric" value="' + appData.feeSettings[cls] + '" class="fee-amount w-1/2 mobile-input text-indigo-600 bg-gray-50" readonly><button type="button" onclick="this.parentElement.remove()" class="del-cls-btn w-12 bg-red-50 text-red-500 rounded-xl hidden shadow-sm"><i class="fas fa-trash"></i></button></div>');
             }
             initFeeClasses();
         }
         
-        function addNewClassInput() { document.getElementById('dynamicClassesBox').innerHTML += '<div class="flex space-x-2 class-row"><input type="text" class="fee-class w-1/2 mobile-input bg-gray-50 uppercase" placeholder="CLASS NAME"><input type="number" inputmode="numeric" class="fee-amount w-1/2 mobile-input text-indigo-600 bg-gray-50" placeholder="AMOUNT"><button type="button" onclick="this.parentElement.remove()" class="del-cls-btn w-12 bg-red-50 text-red-500 rounded-xl shadow-sm"><i class="fas fa-trash"></i></button></div>'; }
+        function addNewClassInput() { 
+            // Fixed data wipe issue by using insertAdjacentHTML
+            var box = document.getElementById('dynamicClassesBox');
+            box.insertAdjacentHTML('beforeend', '<div class="flex space-x-2 class-row"><input type="text" class="fee-class w-1/2 mobile-input bg-gray-50" placeholder="Class (e.g. 2nd)"><input type="number" inputmode="numeric" class="fee-amount w-1/2 mobile-input text-indigo-600 bg-gray-50" placeholder="Amount"><button type="button" onclick="this.parentElement.remove()" class="del-cls-btn w-12 bg-red-50 text-red-500 rounded-xl shadow-sm"><i class="fas fa-trash"></i></button></div>');
+        }
         
         function saveSettings(e) {
             e.preventDefault();
             var classes = document.querySelectorAll('.fee-class'), amounts = document.querySelectorAll('.fee-amount'), newFees = {};
-            for(var i=0; i<classes.length; i++) if(classes[i].value.trim() !== '') newFees[classes[i].value.trim().toUpperCase()] = amounts[i].value;
-            appData.feeSettings = newFees; initFeeClasses(); showToast('SETTINGS UPDATED'); toggleSetLock();
+            for(var i=0; i<classes.length; i++) {
+                var trimmedClass = classes[i].value.trim();
+                if(trimmedClass !== '') newFees[trimmedClass] = amounts[i].value;
+            }
+            appData.feeSettings = newFees; 
+            localStorage.setItem('abClassesData', JSON.stringify(appData));
+            initFeeClasses(); showToast('SETTINGS UPDATED'); 
+            
+            // Auto lock after save
+            if(!setLocked) toggleSetLock();
             
             gasApi('saveFeeSettings', newFees);
         }
@@ -624,11 +643,42 @@
             else select.value = 'Male';
         });
 
+        // EDIT PROFILE LOCK/UNLOCK LOGIC
+        function toggleModalLock() {
+            modalLocked = !modalLocked;
+            updateModalLockUI();
+        }
+        function updateModalLockUI() {
+            var btn = document.getElementById('modalLockBtn');
+            var icon = document.getElementById('modalLockIcon');
+            var saveBtn = document.getElementById('modalSaveBtn');
+            var inputs = document.querySelectorAll('#addForm input, #addForm select');
+            
+            if(modalLocked) {
+                icon.className = 'fas fa-lock text-red-500';
+                btn.classList.add('bg-red-50'); btn.classList.remove('bg-gray-100');
+                saveBtn.classList.add('opacity-30', 'pointer-events-none');
+                for(var i=0; i<inputs.length; i++) { 
+                    if(inputs[i].type !== 'hidden') { inputs[i].readOnly = true; if(inputs[i].tagName === 'SELECT' || inputs[i].type === 'date') inputs[i].disabled = true; }
+                }
+            } else {
+                icon.className = 'fas fa-unlock text-green-500';
+                btn.classList.add('bg-gray-100'); btn.classList.remove('bg-red-50');
+                saveBtn.classList.remove('opacity-30', 'pointer-events-none');
+                for(var j=0; j<inputs.length; j++) { 
+                    inputs[j].readOnly = false; inputs[j].disabled = false;
+                }
+            }
+        }
+
         function openModal() {
             document.getElementById('addForm').reset();
             document.getElementById('stuId').value = ''; document.getElementById('stuRowIndex').value = '';
             document.getElementById('modalTitle').innerText = 'REGISTRATION'; document.getElementById('stuDate').valueAsDate = new Date();
             document.getElementById('deleteBox').classList.add('hidden'); delLocked = true; updateDelLockUI();
+            
+            modalLocked = false; document.getElementById('modalLockBtn').classList.add('hidden'); updateModalLockUI();
+            
             initFeeClasses(); 
             var modal = document.getElementById('addModal'); var content = document.getElementById('modalContent');
             modal.classList.remove('hidden'); setTimeout(function() { content.classList.remove('translate-y-full'); }, 10);
@@ -649,14 +699,26 @@
             var s = null; for(var i=0; i<appData.students.length; i++) if(appData.students[i].id === id) s = appData.students[i];
             if(!s) return;
             openModal(); document.getElementById('modalTitle').innerText = 'EDIT PROFILE';
+            
+            // Enable Lock in Edit Mode
+            document.getElementById('modalLockBtn').classList.remove('hidden');
+            modalLocked = true; updateModalLockUI();
+
             document.getElementById('stuId').value = s.id; document.getElementById('stuRowIndex').value = s.rowIndex;
             document.getElementById('stuName').value = s.name; document.getElementById('stuGender').value = s.gender;
             document.getElementById('stuClass').value = s.class; document.getElementById('stuPhone').value = s.phone;
             document.getElementById('stuFee').value = s.fee; 
             
+            // FIXED DATE DISPLAY BUG IN EDIT MODE (Requires Exact YYYY-MM-DD Padding)
             var dParts = s.joinDate.split('/');
-            if(dParts.length === 3) document.getElementById('stuDate').value = dParts[2] + "-" + dParts[1] + "-" + dParts[0];
-            else document.getElementById('stuDate').value = s.joinDate;
+            if(dParts.length === 3) {
+                var yyyy = dParts[2];
+                var mm = dParts[1].padStart(2, '0');
+                var dd = dParts[0].padStart(2, '0');
+                document.getElementById('stuDate').value = yyyy + "-" + mm + "-" + dd;
+            } else {
+                document.getElementById('stuDate').value = s.joinDate;
+            }
             
             document.getElementById('deleteBox').classList.remove('hidden');
         }
@@ -665,7 +727,9 @@
             if(confirm("DELETE PROFILE PERMANENTLY?")) {
                 var id = document.getElementById('stuId').value, rowIndex = document.getElementById('stuRowIndex').value;
                 var newList = []; for(var i=0; i<appData.students.length; i++) if(appData.students[i].id !== id) newList.push(appData.students[i]);
-                appData.students = newList; renderStudents(); updateDashboard(); renderDefaulters(); showToast('PROFILE DELETED');
+                appData.students = newList; 
+                localStorage.setItem('abClassesData', JSON.stringify(appData));
+                renderStudents(); updateDashboard(); renderDefaulters(); showToast('PROFILE DELETED');
                 closeModal(); 
                 gasApi('deleteStudent', rowIndex);
             }
@@ -679,8 +743,9 @@
             var lastId = appData.students.length>0 ? parseInt(appData.students[appData.students.length-1].id.split('-')[1], 10) : 0;
             var newId = isEdit ? idVal : 'STU-' + ("000" + (lastId + 1)).slice(-3);
             
+            // ENFORCING STRICT DD/MM/YYYY FORMAT FOR SAVING
             var rawD = document.getElementById('stuDate').value.split('-');
-            var finalDate = rawD[2] + "/" + rawD[1] + "/" + rawD[0];
+            var finalDate = rawD.length === 3 ? rawD[2].padStart(2, '0') + "/" + rawD[1].padStart(2, '0') + "/" + rawD[0] : document.getElementById('stuDate').value;
             
             var newStu = {
                 id: newId, name: document.getElementById('stuName').value.trim().toUpperCase(), gender: document.getElementById('stuGender').value,
@@ -692,10 +757,11 @@
             if(isEdit) { for(var k=0; k<appData.students.length; k++) { if(appData.students[k].id === newStu.id) { appData.students[k] = newStu; break; } } } 
             else { appData.students.push(newStu); }
             
+            localStorage.setItem('abClassesData', JSON.stringify(appData));
             renderStudents(); updateDashboard(); renderDefaulters(); closeModal(); showToast('DATA SYNCED');
             
             gasApi('saveStudent', newStu).then(r => {
-                if(r && r.status==='success') appData = r;
+                if(r && r.status==='success') { appData = r; localStorage.setItem('abClassesData', JSON.stringify(appData)); }
             });
         }
 
@@ -752,12 +818,13 @@
             var pay = { id: 'TXN-'+Date.now().toString().slice(-6), studentId: st.id, studentName: st.name, className: st.class, phone: st.phone, amount: amt, month: mnth, date: dt, mode: currentMode };
             
             appData.payments.push(pay);
-            if(mnth === currentMonthName && new Date(dt).getFullYear() === new Date().getFullYear()) {
+            if(mnth === currentMonthName && new Date(rawD[0], rawD[1]-1, rawD[2]).getFullYear() === new Date().getFullYear()) {
                 var isPaid = false;
                 for(var j=0; j<appData.payments.length - 1; j++) if(appData.payments[j].studentId === st.id && appData.payments[j].month === currentMonthName) isPaid = true;
                 if(!isPaid) appData.paidCount++;
             }
             
+            localStorage.setItem('abClassesData', JSON.stringify(appData));
             updateDashboard(); renderDefaulters(); showToast('FEE RECORDED'); navigate('dashboard');
             sendSuccessMsg(st.name, st.phone, amt, mnth, currentMode);
             
